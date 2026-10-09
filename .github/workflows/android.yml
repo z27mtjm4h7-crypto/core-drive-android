@@ -1,0 +1,43 @@
+name: Android CI
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Preparar projeto
+        run: |
+          unzip -q core-drive-v0.4.3.zip
+          cd core-drive-v0.4.3
+          echo "PROJECT_DIR=$PWD" >> "$GITHUB_ENV"
+
+      - name: Instalar Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+
+      - name: Compilar APK
+        run: gradle -p "$PROJECT_DIR" --no-daemon assembleDebug
+
+      - name: Disponibilizar APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: core-drive-debug-apk
+          path: core-drive-v0.4.3/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+          retention-days: 14
