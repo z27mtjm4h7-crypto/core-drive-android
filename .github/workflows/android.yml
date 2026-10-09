@@ -23,7 +23,7 @@ jobs:
 
       - name: Preparar projeto
         run: |
-          unzip -q core-drive-v0.4.4-corrigido.zip
+          unzip -q core-drive-v0.4.5-corrigido.zip
           echo "PROJECT_DIR=$PWD/core-drive-v0.4.3" >> "$GITHUB_ENV"
 
       - name: Instalar Gradle
