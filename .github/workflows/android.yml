@@ -10,8 +10,9 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Baixar repositório
+      - name: Baixar repositorio
         uses: actions/checkout@v4
 
       - name: Configurar Java
@@ -22,16 +23,14 @@ jobs:
 
       - name: Preparar projeto
         run: |
-          unzip -q core-drive-v0.4.3.zip
-          cd core-drive-v0.4.3
-          echo "PROJECT_DIR=$PWD" >> "$GITHUB_ENV"
+          unzip -q core-drive-v0.4.4-corrigido.zip
+          echo "PROJECT_DIR=$PWD/core-drive-v0.4.3" >> "$GITHUB_ENV"
 
       - name: Instalar Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
 
-      
       - name: Compilar APK
         run: |
           echo "android.useAndroidX=true" >> "$PROJECT_DIR/gradle.properties"
