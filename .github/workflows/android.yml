@@ -31,8 +31,11 @@ jobs:
         with:
           gradle-version: '8.9'
 
+      
       - name: Compilar APK
-        run: gradle -p "$PROJECT_DIR" --no-daemon assembleDebug
+        run: |
+          echo "android.useAndroidX=true" >> "$PROJECT_DIR/gradle.properties"
+          gradle -p "$PROJECT_DIR" --no-daemon assembleDebug
 
       - name: Disponibilizar APK
         uses: actions/upload-artifact@v4
